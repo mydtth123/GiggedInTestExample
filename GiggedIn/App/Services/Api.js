@@ -37,6 +37,8 @@ const create = (baseURL = 'https://api.github.com/') => {
   const getRoot = () => api.get('')
   const getRate = () => api.get('rate_limit')
   const getUser = (username) => api.get('search/users', {q: username})
+  const getUserData =() =>  api.get('https://jsonplaceholder.typicode.com/users')
+  const getDirection =(url) =>  api.get(url)
 
   // ------
   // STEP 3
@@ -54,7 +56,9 @@ const create = (baseURL = 'https://api.github.com/') => {
     // a list of the API functions from step 2
     getRoot,
     getRate,
-    getUser
+    getUser,
+    getUserData,
+    getDirection
   }
 }
 

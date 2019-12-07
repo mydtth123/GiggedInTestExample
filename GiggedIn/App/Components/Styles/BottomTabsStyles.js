@@ -27,7 +27,7 @@ export const styles = StyleSheet.create({
     width: itemWidth,
     flexDirection: "column",
     alignItems: "center",
-    justifyContent: "flex-end",
+    justifyContent: "center",
     height: Metrics.bottomBarHeight
     // borderTopColor: Colors.background,
     // borderTopWidth: 1
@@ -35,17 +35,17 @@ export const styles = StyleSheet.create({
   text: {
     fontFamily: Fonts.type.base,
     color: Colors.text,
-    fontSize: Fonts.size.small,
-    paddingVertical: Metrics.smallMargin
+    fontSize: Fonts.size.regular,
+    // paddingVertical: Metrics.smallMargin
   },
   selectedText: {
     fontFamily: Fonts.type.bold,
-    color: Colors.background,
-    fontSize: Fonts.size.small,
-    paddingVertical: Metrics.smallMargin
+    color: Colors.facebook,
+    fontSize: Fonts.size.regular,
+    // paddingVertical: Metrics.smallMargin
   },
   greenLine: {
-    backgroundColor: Colors.background,
+    backgroundColor: Colors.facebook,
     height: 3,
     position: "absolute",
     top: 0,

@@ -19,7 +19,6 @@ export const TabBarIcon = props => {
       onPress={() => props.onSelected(props.data)}
     >
       <View style={line} />
-      {/* <Icon name={icon} color={color} size={Metrics.icons.small} /> */}
       <Text style={textStyles}>{name}</Text>
     </TouchableOpacity>
   );
