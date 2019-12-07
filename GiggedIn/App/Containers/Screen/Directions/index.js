@@ -14,7 +14,7 @@ export default class DirectionsPage extends React.Component {
             to: "",
             coords: []
         };
-        Geocoder.init("AIzaSyAtsuZdh2UEc3YF0RP9fBDfPgrtb7NZiO8"); // use a valid API key
+        Geocoder.init(""); // use a valid API key
     }
     onChangeFromText = from => {
         this.setState({
@@ -41,7 +41,7 @@ export default class DirectionsPage extends React.Component {
         // })
         // .catch(error => console.warn(error));
         const url =
-            "https://maps.googleapis.com/maps/api/directions/json?origin=Brooklyn&destination=Queens&mode=transit&key=AIzaSyAtsuZdh2UEc3YF0RP9fBDfPgrtb7NZiO8";
+            "https://maps.googleapis.com/maps/api/directions/json?origin=Brooklyn&destination=Queens&mode=transit&key=";
         Api.create()
             .getDirection(url)
             .then(res => {
