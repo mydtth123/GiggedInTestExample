@@ -1,7 +1,7 @@
 import React from "react";
 import { View, Text, StyleSheet, TextInput, TouchableOpacity } from "react-native";
 import BottomBarContainer from "../../TabContainer/BottomTabContainer";
-import MapView, { Polyline } from "react-native-maps";
+import MapView, { Polyline, AnimatedRegion } from "react-native-maps";
 import { Metrics, Colors, Fonts } from "../../../Themes";
 import Geocoder from "react-native-geocoding";
 import Api from "../../../Services/Api";
@@ -40,27 +40,36 @@ export default class DirectionsPage extends React.Component {
         //     console.log(location);
         // })
         // .catch(error => console.warn(error));
-        const url =
-            "https://maps.googleapis.com/maps/api/directions/json?origin=Brooklyn&destination=Queens&mode=transit&key=";
-        Api.create()
-            .getDirection(url)
-            .then(res => {
-                console.log("res===", res);
-                const data = res.data;
-                const points = polyline.decode(data.routes[0].overview_polyline.points);
-                console.log("points    ", points);
-                let coords = points.map((point, index) => {
-                    console.log("point ", point);
-                    return { latitude: point[0], longitude: point[1] };
+        //iNPUT THE API KEY HERE
+        const API_KEY = "";
+        const { from, to } = this.state;
+        if (from.length > 1 && to.length > 1) {
+            const url = `https://maps.googleapis.com/maps/api/directions/json?origin=${from}&destination=${to}&mode=transit&key=${API_KEY}`;
+            Api.create()
+                .getDirection(url)
+                .then(res => {
+                    console.log("res===", res);
+                    const data = res.data;
+                    const points = polyline.decode(data.routes[0].overview_polyline.points);
+                    let coords = points.map((point, index) => {
+                        return { latitude: point[0], longitude: point[1] };
+                    });
+                    this.goToLocation(coords[0]);
+                    this.setState({
+                        coords: coords
+                    });
+                })
+                .catch(e => {
+                    console.log("res eeeee", e);
                 });
-                this.setState({
-                    coords: coords
-                });
-            })
-            .catch(e => {
-                console.log("res eeeee", e);
-            });
+        }
     };
+    goToLocation(location) {
+        let initialRegion = Object.assign({}, location);
+        initialRegion["latitudeDelta"] = 0.005;
+        initialRegion["longitudeDelta"] = 0.005;
+        this.mapView.animateToRegion(initialRegion, 2000);
+    }
 
     render() {
         const { from, to, coords } = this.state;
@@ -85,15 +94,12 @@ export default class DirectionsPage extends React.Component {
                 </View>
                 <MapView
                     // provider={PROVIDER_GOOGLE} // remove if not using Google Maps
+                    ref={ref => (this.mapView = ref)}
+                    zoomEnabled={true}
+                    showsUserLocation={true}
                     style={styles.map}
-                    region={{
-                        latitude: 37.78825,
-                        longitude: -122.4324,
-                        latitudeDelta: 0.015,
-                        longitudeDelta: 0.0121
-                    }}
                 >
-                    <Polyline coordinates={coords} strokeColor={"red"} strokeWidth={1} />
+                    <Polyline coordinates={coords} strokeColor={"red"} strokeWidth={3} />
                 </MapView>
             </BottomBarContainer>
         );
